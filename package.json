@@ -16,7 +16,6 @@
       "nookies": "latest"
     },
     "devDependencies": {
-      "tailwindcss": "latest",
       "postcss": "latest",
       "autoprefixer": "latest"
     }

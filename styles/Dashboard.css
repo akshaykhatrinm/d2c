@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 14px; /* Updated to 14px */
+  font-size: 14px;
   margin: 0;
   padding: 0;
 }
@@ -11,19 +11,19 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  text-align: left; /* Left-align content */
+  text-align: left;
 }
 
 .dashboard-title {
-  font-size: 24px; /* Slightly larger for title */
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Wider blocks */
-  gap: 15px; /* More spacing */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
   margin-bottom: 30px;
 }
 
@@ -35,12 +35,12 @@ body {
 }
 
 .metric-block h3 {
-  font-size: 16px; /* Adjusted for readability */
+  font-size: 16px;
   margin: 0 0 8px;
 }
 
 .metric-block p {
-  font-size: 18px; /* Larger for values */
+  font-size: 18px;
   font-weight: 700;
   margin: 0;
 }
@@ -71,7 +71,7 @@ body {
   border: 1px solid #ddd;
   white-space: normal;
   word-wrap: break-word;
-  max-width: 250px; /* Slightly wider columns */
+  max-width: 250px;
 }
 
 .campaign-table th {
@@ -96,14 +96,23 @@ body {
   margin-bottom: 15px;
 }
 
+.gemini-summary p {
+  margin: 0 0 10px;
+}
+
 .gemini-summary ul {
   list-style-type: disc;
   padding-left: 20px;
-  margin: 0;
+  margin: 0 0 15px;
+}
+
+.gemini-summary ul ul {
+  list-style-type: circle;
+  padding-left: 20px;
 }
 
 .gemini-summary li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .text-center {

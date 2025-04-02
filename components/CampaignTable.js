@@ -34,13 +34,22 @@ export default function CampaignTable({ dailyData }) {
               </tr>
             </thead>
             <tbody>
-              {tableRows.map((row, index) => (
-                <tr key={index}>
-                  {Object.values(row).map((value, i) => (
-                    <td key={i}>{value}</td>
-                  ))}
-                </tr>
-              ))}
+              {tableRows.map((row, index) => {
+                const roas = row.ROAS;
+                let rowStyle = {};
+                if (roas < 5) {
+                  rowStyle = { backgroundColor: '#ffcccc' }; // Light red for ROAS < 5
+                } else if (roas > 10) {
+                  rowStyle = { backgroundColor: '#ccffcc' }; // Light green for ROAS > 10
+                }
+                return (
+                  <tr key={index} style={rowStyle}>
+                    {Object.values(row).map((value, i) => (
+                      <td key={i}>{value}</td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

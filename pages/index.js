@@ -6,7 +6,6 @@ import PieChart from '../components/PieChart';
 import CampaignTable from '../components/CampaignTable';
 import GeminiSummary from '../components/GeminiSummary';
 import Papa from 'papaparse';
-import '../styles/Dashboard.css';
 
 export default function Dashboard() {
   const [data, setData] = useState([]);
@@ -75,7 +74,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (selectedDate) {
       const fetchAnalysis = async () => {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://d2c-tawny.vercel.app/';
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://nexxbase-dashboard.vercel.app';
         const apiUrl = `${baseUrl}/api/getGeminiAnalysis?date=${selectedDate}`;
         try {
           const res = await fetch(apiUrl);

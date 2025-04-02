@@ -4,6 +4,7 @@ import DateSelector from '../components/DateSelector';
 import MetricsBlocks from '../components/MetricsBlocks';
 import PieChart from '../components/PieChart';
 import CampaignTable from '../components/CampaignTable';
+import LongTailedProductsTable from '../components/LongTailedProductsTable'; // New import
 import GeminiSummary from '../components/GeminiSummary';
 import Papa from 'papaparse';
 
@@ -14,7 +15,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Check authentication
   useEffect(() => {
     const cookies = parseCookies();
     if (cookies.auth !== 'true') {
@@ -22,7 +22,6 @@ export default function Dashboard() {
     }
   }, []);
 
-  // Fetch and process marketing data client-side
   useEffect(() => {
     const fetchData = async () => {
       const url = process.env.NEXT_PUBLIC_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCpVm8J-Om7tZw1pJXJOeXjLgheQbE8I80vWuY0VldkOw105c5S39eCFpEoJrnByH65RQald3wd-y1/pub?gid=0&single=true&output=csv';
@@ -34,19 +33,18 @@ export default function Dashboard() {
 
         const { data } = Papa.parse(csvText, {
           header: true,
-          skipEmptyLines: 'greedy', // Skips completely empty rows
+          skipEmptyLines: 'greedy',
           dynamicTyping: true,
           transform: (value, header) => {
-            if (header === 'GMV') return parseFloat(value.replace(/,/g, '') || 0); // Empty GMV = 0
+            if (header === 'GMV') return parseFloat(value.replace(/,/g, '') || 0);
             if (header === 'PP%') return parseFloat(value.replace('%', '') || 0);
             return value;
           },
         });
 
-        // Filter out rows where Title is only numbers
         const filteredData = data.filter(row => {
           const title = row.Title?.toString() || '';
-          return !/^\d+(\.\d+)?$/.test(title); // Remove if Title is purely numeric
+          return !/^\d+(\.\d+)?$/.test(title);
         });
 
         if (!filteredData.length) throw new Error('No valid data parsed from CSV');
@@ -70,7 +68,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  // Fetch Gemini analysis
   useEffect(() => {
     if (selectedDate) {
       const fetchAnalysis = async () => {
@@ -94,6 +91,8 @@ export default function Dashboard() {
   if (error) return <div className="text-center p-4 text-red-500">{error}</div>;
 
   const dailyData = data.filter(row => row.Date === selectedDate);
+  const highGMVData = dailyData.filter(row => row.GMV >= 100000); // For CampaignTable
+  const lowGMVData = dailyData; // For LongTailedProductsTable (unfiltered for GMV)
 
   return (
     <div className="dashboard-container">
@@ -104,7 +103,8 @@ export default function Dashboard() {
           <GeminiSummary analysis={analysis} />
           <MetricsBlocks dailyData={dailyData} />
           <PieChart dailyData={dailyData} />
-          <CampaignTable dailyData={dailyData.filter(row => row.GMV >= 100000)} /> {/* Filter GMV < 100000 */}
+          <CampaignTable dailyData={highGMVData} />
+          <LongTailedProductsTable dailyData={lowGMVData} /> {/* New table */}
         </>
       ) : (
         <p className="text-center text-red-500">No data available to display.</p>

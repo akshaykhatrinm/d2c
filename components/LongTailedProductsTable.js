@@ -24,7 +24,7 @@ export default function LongTailedProductsTable({ dailyData }) {
 
   return (
     <div className="campaign-table-container">
-      <h2>Long-tailed Products (GMV < ₹100,000)</h2>
+      <h2>Long-tailed Products (GMV < {"\u20B9"}100,000)</h2>
       {tableRows.length > 0 ? (
         <div className="table-wrapper">
           <table className="campaign-table">

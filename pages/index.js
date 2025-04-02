@@ -5,6 +5,7 @@ import MetricsBlocks from '../components/MetricsBlocks';
 import PieChart from '../components/PieChart';
 import CampaignTable from '../components/CampaignTable';
 import GeminiSummary from '../components/GeminiSummary';
+import '../styles/Dashboard.css';
 import Papa from 'papaparse';
 
 export default function Dashboard() {

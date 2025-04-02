@@ -4,7 +4,6 @@ import DateSelector from '../components/DateSelector';
 import MetricsBlocks from '../components/MetricsBlocks';
 import PieChart from '../components/PieChart';
 import CampaignTable from '../components/CampaignTable';
-import LongTailedProductsTable from '../components/LongTailedProductsTable';
 import GeminiSummary from '../components/GeminiSummary';
 import Papa from 'papaparse';
 
@@ -101,8 +100,7 @@ export default function Dashboard() {
           <GeminiSummary analysis={analysis} />
           <MetricsBlocks dailyData={dailyData} />
           <PieChart dailyData={dailyData} />
-          <CampaignTable dailyData={dailyData} /> {/* Use full dailyData */}
-          <LongTailedProductsTable dailyData={dailyData} /> {/* Still shows GMV < 100,000 */}
+          <CampaignTable dailyData={dailyData} />
         </>
       ) : (
         <p className="text-center text-red-500">No data available to display.</p>

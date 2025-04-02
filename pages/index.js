@@ -4,7 +4,7 @@ import DateSelector from '../components/DateSelector';
 import MetricsBlocks from '../components/MetricsBlocks';
 import PieChart from '../components/PieChart';
 import CampaignTable from '../components/CampaignTable';
-import LongTailedProductsTable from '../components/LongTailedProductsTable'; // New import
+import LongTailedProductsTable from '../components/LongTailedProductsTable';
 import GeminiSummary from '../components/GeminiSummary';
 import Papa from 'papaparse';
 
@@ -91,8 +91,6 @@ export default function Dashboard() {
   if (error) return <div className="text-center p-4 text-red-500">{error}</div>;
 
   const dailyData = data.filter(row => row.Date === selectedDate);
-  const highGMVData = dailyData.filter(row => row.GMV >= 100000); // For CampaignTable
-  const lowGMVData = dailyData; // For LongTailedProductsTable (unfiltered for GMV)
 
   return (
     <div className="dashboard-container">
@@ -103,8 +101,8 @@ export default function Dashboard() {
           <GeminiSummary analysis={analysis} />
           <MetricsBlocks dailyData={dailyData} />
           <PieChart dailyData={dailyData} />
-          <CampaignTable dailyData={highGMVData} />
-          <LongTailedProductsTable dailyData={lowGMVData} /> {/* New table */}
+          <CampaignTable dailyData={dailyData} /> {/* Use full dailyData */}
+          <LongTailedProductsTable dailyData={dailyData} /> {/* Still shows GMV < 100,000 */}
         </>
       ) : (
         <p className="text-center text-red-500">No data available to display.</p>

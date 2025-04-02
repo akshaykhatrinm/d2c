@@ -1,35 +1,35 @@
 export default function CampaignTable({ dailyData }) {
   const tableRows = dailyData.map(row => {
-    const spend = parseFloat(row['Spents Total'] || 0);
-    const gmv = parseFloat(row.GMV || 0);
-    const units = parseInt(row.Units || 0);
-    const asp = units ? gmv / units : 0;
-    const cac = units ? spend / units : 0;
-    const roas = spend ? gmv / spend : 0;
-    const pp = parseFloat(row['PP%'] || 0);
+    const spend = Math.round(parseFloat(row['Spents Total']) || 0);
+    const gmv = Math.round(parseFloat(row.GMV) || 0);
+    const units = parseInt(row.Units) || 0;
+    const asp = units ? Math.round(gmv / units) : 0;
+    const cac = units ? Math.round(spend / units) : 0;
+    const roas = spend ? Math.round(gmv / spend) : 0;
+    const pp = Math.round(parseFloat(row['PP%']) || 0);
 
     return {
       'Campaign Name': row['PowerBI Name'] || 'Unknown',
-      'Spend (₹)': spend.toFixed(2),
-      'GMV (₹)': gmv.toFixed(2),
+      'Spend (₹)': spend,
+      'GMV (₹)': gmv,
       'Units Sold': units,
-      ASP: asp.toFixed(2),
-      CAC: cac.toFixed(2),
-      ROAS: roas.toFixed(2),
-      'PP%': pp.toFixed(2),
+      ASP: asp,
+      CAC: cac,
+      ROAS: roas,
+      'PP%': pp,
     };
   });
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-2">Campaign Performance</h2>
+    <div className="campaign-table-container">
+      <h2>Campaign Performance</h2>
       {tableRows.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
+        <div className="table-wrapper">
+          <table className="campaign-table">
             <thead>
-              <tr className="bg-gray-200">
+              <tr>
                 {Object.keys(tableRows[0]).map(header => (
-                  <th key={header} className="p-2 border font-medium">{header}</th>
+                  <th key={header}>{header}</th>
                 ))}
               </tr>
             </thead>
@@ -37,7 +37,7 @@ export default function CampaignTable({ dailyData }) {
               {tableRows.map((row, index) => (
                 <tr key={index}>
                   {Object.values(row).map((value, i) => (
-                    <td key={i} className="p-2 border">{value}</td>
+                    <td key={i}>{value}</td>
                   ))}
                 </tr>
               ))}

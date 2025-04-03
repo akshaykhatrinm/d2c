@@ -20,23 +20,50 @@ export default async function handler(req, res) {
     }
 
     const csvData = Papa.unparse(filteredData);
-    const prompt = `
-      You are a Senior Marketing Analyst analyzing daily campaign performance for ${date}.
-      Data (CSV format):
-      ${csvData}
-      Analyze the following columns:
-      - Date
-      - PowerBI Name (campaign name)
-      - Units (units sold and orders)
-      - GMV
-      - PP% (prepaid percentage)
-      - Spents Total (total spend)
-      - FB Spent (Facebook spend)
-      - GA Spent (Google Ads spend)
-      - OtherSpent (other spend)
-      Provide a summary of key metrics (e.g., total GMV, total spend, units sold) and 2-3 actionable insights.
-      Return your response in plain text.
-    `;
+   const prompt = `
+You are a Senior Marketing Analyst tasked with analyzing daily campaign performance for ${date} and providing a multi-level report for optimization and strategic planning.
+Data (CSV format):
+${csvData}
+
+Analyze the following columns:
+- Date
+- PowerBI Name (campaign name)
+- Units (units sold and orders)
+- GMV (Gross Merchandise Value)
+- PP% (prepaid percentage)
+- Spents Total (total spend)
+- FB Spent (Facebook spend)
+- GA Spent (Google Ads spend)
+- OtherSpent (other spend)
+
+Provide your analysis in plain text, structured as follows:
+
+1. **Key Metrics Summary**:
+   - Total Units Sold: Sum of Units
+   - Total GMV: Sum of GMV (convert negative GMV values, e.g., "(36,158)" to -36158)
+   - Total Spend: Sum of Spents Total
+   - Total FB Spend: Sum of FB Spent
+   - Total GA Spend: Sum of GA Spent
+   - Total Other Spend: Sum of OtherSpent
+   - Average PP%: Average of PP% (round to 1 decimal)
+   - Average ROAS: GMV / Spents Total (round to 1 decimal, handle 0 spend as 0 ROAS)
+   - Average CAC: Spents Total / Units (round to nearest integer, handle 0 units as 0 CAC)
+   - Average ASP: GMV / Units (round to nearest integer, handle 0 units as 0 ASP)
+
+2. **Top Performers**:
+   - List the top 3 campaigns by GMV (include PowerBI Name, GMV, Units Sold).
+
+3. **Daily Optimization Recommendations** (2-3 insights):
+   - Focus on immediate actions (e.g., adjust bids, pause underperforming campaigns).
+   - Use metrics like ROAS, CAC, and spend allocation (FB, GA, Other).
+   - Highlight specific campaigns where applicable.
+
+4. **Strategic Insights** (2-3 insights):
+   - Provide longer-term recommendations (e.g., channel reallocation, data improvement).
+   - Consider trends in PP%, spend efficiency, or missing data patterns.
+
+Ensure all monetary values use the ₹ symbol and integers (no decimals). Return your response in plain text, with sections clearly separated by newlines.
+`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     const response = await fetch(
